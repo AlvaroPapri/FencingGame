@@ -729,13 +729,37 @@ PrefabInstance:
       propertyPath: movementSpeed
       value: 0.4
       objectReference: {fileID: 0}
+    - target: {fileID: 5979385779285692216, guid: 4bdd50a64ca795448af56555d7465e83, type: 3}
+      propertyPath: m_Size.x
+      value: 1.3774133
+      objectReference: {fileID: 0}
+    - target: {fileID: 5979385779285692216, guid: 4bdd50a64ca795448af56555d7465e83, type: 3}
+      propertyPath: m_Offset.x
+      value: -0.18870664
+      objectReference: {fileID: 0}
+    - target: {fileID: 5979385779285692217, guid: 4bdd50a64ca795448af56555d7465e83, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 78e4451d340a02e45b24718678edd768, type: 3}
+    - target: {fileID: 5979385779285692217, guid: 4bdd50a64ca795448af56555d7465e83, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5979385779285692217, guid: 4bdd50a64ca795448af56555d7465e83, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5979385779285692217, guid: 4bdd50a64ca795448af56555d7465e83, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5979385779285692218, guid: 4bdd50a64ca795448af56555d7465e83, type: 3}
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5979385779285692218, guid: 4bdd50a64ca795448af56555d7465e83, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -7.54
+      value: -6.92
       objectReference: {fileID: 0}
     - target: {fileID: 5979385779285692218, guid: 4bdd50a64ca795448af56555d7465e83, type: 3}
       propertyPath: m_LocalPosition.y
