@@ -1,19 +1,23 @@
+using System;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
     public float movementSpeed;
-    public float timeToLongStep;
-    public float longStepSpeed;
 
-    private float timeOfFirstPressed;
-    private bool firstButtonPressed;
-    private bool reset;
+    private bool isMoving;
+    private Animator anim;
+
+    private void Start()
+    {
+        isMoving = false;
+        anim = GetComponent<Animator>();
+    }
 
     private void Update()
     {
         // My Code
-        if (gameObject.CompareTag("BluePlayer"))
+        if (gameObject.CompareTag("BluePlayer") && gameObject.GetComponent<PlayerAttack>().canMove)
         {
             if (Input.GetKeyDown(KeyCode.A))
             {
@@ -27,7 +31,7 @@ public class PlayerMovement : MonoBehaviour
             }
         }
         
-        if (gameObject.CompareTag("RedPlayer"))
+        if (gameObject.CompareTag("RedPlayer") && gameObject.GetComponent<PlayerAttack>().canMove)
         {
             if (Input.GetKeyDown(KeyCode.J))
             {
@@ -45,46 +49,28 @@ public class PlayerMovement : MonoBehaviour
 
     private void MoveLeft()
     {
+        Animating();
         transform.position = new Vector3(transform.position.x - movementSpeed, transform.position.y,
             transform.position.z);
     }
 
     private void MoveRight()
     {
+        Animating();
         transform.position = new Vector3(transform.position.x + movementSpeed, transform.position.y,
             transform.position.z);
     }
 
-    #endregion
-
-    #region TODO
-
-    private void CheckDoublePressed()
+    void Animating()
     {
-        if(Input.GetKeyDown(KeyCode.A) && firstButtonPressed) {
-            if(Time.time - timeOfFirstPressed < 0.5f) {
-                Debug.Log("DoubleClicked");
-            } else {
-                Debug.Log("Too late");
-            }
- 
-            reset = true;
+        if (anim.GetBool("Move"))
+        {
+            anim.SetBool("Move", false);
         }
- 
-        if(Input.GetKeyDown(KeyCode.A) && !firstButtonPressed) {
-            firstButtonPressed = true;
-            timeOfFirstPressed = Time.time;
+        else
+        {
+            anim.SetBool("Move", true);
         }
- 
-        if(reset) {
-            firstButtonPressed = false;
-            reset = false;
-        } 
-    }
-
-    void Move(bool isLongStep)
-    {
-        
     }
 
     #endregion
