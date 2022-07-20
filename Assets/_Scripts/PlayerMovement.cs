@@ -5,12 +5,10 @@ public class PlayerMovement : MonoBehaviour
 {
     public float movementSpeed;
 
-    private bool isMoving;
     private Animator anim;
 
     private void Start()
     {
-        isMoving = false;
         anim = GetComponent<Animator>();
     }
 
