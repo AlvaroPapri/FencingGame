@@ -8,7 +8,7 @@ public class PlayerHealth : MonoBehaviour
         {
             Debug.Log(col.gameObject.transform.parent.tag);
             GameManager.Instance.setupWinner(col.gameObject.transform.parent.gameObject);
-            // Destroy(gameObject);
+            gameObject.SetActive(false);
         }
     }
 }

@@ -31,12 +31,12 @@ public class PlayerMovement : MonoBehaviour
         
         if (gameObject.CompareTag("RedPlayer") && gameObject.GetComponent<PlayerAttack>().canMove)
         {
-            if (Input.GetKeyDown(KeyCode.J))
+            if (Input.GetKeyDown(KeyCode.LeftArrow))
             {
                 MoveLeft();
             }
 
-            if (Input.GetKeyDown(KeyCode.L))
+            if (Input.GetKeyDown(KeyCode.RightArrow))
             {
                 MoveRight();
             }

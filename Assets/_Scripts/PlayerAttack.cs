@@ -29,7 +29,12 @@ public class PlayerAttack : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (gameObject.CompareTag("BluePlayer") && Input.GetKeyDown(KeyCode.Space) && canMove)
+        {
+            StartCoroutine(Attack());
+        }
+        
+        if (gameObject.CompareTag("RedPlayer") && Input.GetKeyDown(KeyCode.RightAlt) && canMove)
         {
             StartCoroutine(Attack());
         }
@@ -54,10 +59,16 @@ public class PlayerAttack : MonoBehaviour
             // Activate left collider
             leftCollider.transform.gameObject.SetActive(true);
             transform.position = new Vector3(transform.position.x - attackStepSpeed, transform.position.y);
+            anim.SetTrigger("Attack");
             yield return new WaitForSeconds(0.5f);
+            anim.ResetTrigger("Attack");
             leftCollider.transform.gameObject.SetActive(false);
         }
 
         canMove = true;
     }
+
+    public void DisableMove() => canMove = false;
+
+    public void EnableMove() => canMove = true;
 }
