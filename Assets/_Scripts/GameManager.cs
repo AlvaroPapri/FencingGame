@@ -9,12 +9,14 @@ public class GameManager : MonoBehaviour
     public int numRoundsToWin = 3;
     public int m_StartWait = 2;
     public GameObject blueWinBackground, redWinBackground;
-    public GameObject[] players;
-    public Transform[] spawnPositions;
+    public Transform blueSpawnPositions;
+    public Transform redSpawnPositions;
+    public GameObject bluePlayer;
+    public GameObject redPlayer;
 
-    private int currentRound;
-    private int blueRoundWins;
-    private int redRoundWins;
+    [SerializeField] private int currentRound;
+    [SerializeField] private int blueRoundWins;
+    [SerializeField] private int redRoundWins;
 
     private GameObject roundWinner;
     private GameObject gameWinner;
@@ -34,10 +36,8 @@ public class GameManager : MonoBehaviour
 
     private void SpawnPlayers()
     {
-        for (int i = 0; i < players.Length; i++)
-        {
-            GameObject prefab = Instantiate(players[i], spawnPositions[i].position, players[i].transform.rotation);
-        }
+        Instantiate(bluePlayer, blueSpawnPositions.position, blueSpawnPositions.rotation);
+        Instantiate(redPlayer, redSpawnPositions.position, redSpawnPositions.rotation);
     }
 
     IEnumerator GameLoop()
@@ -103,10 +103,11 @@ public class GameManager : MonoBehaviour
 
     void ResetPlayers()
     {
-        for (int i = 0; i < players.Length; i++)
-        {
-            players[i].transform.position = spawnPositions[i].position;
-        }
+        bluePlayer.SetActive(true);
+        redPlayer.SetActive(true);
+        
+        bluePlayer.transform.position = blueSpawnPositions.position;
+        redPlayer.transform.position = redSpawnPositions.position;
     }
 
     public void SetupWinner(GameObject winner)
@@ -120,80 +121,48 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 0;
     }
 
-    //TODO: Fix error here
     private bool OnePlayerLeft()
     {
-        int playersAlive = 0;
-        
-        for (int i = 0; i < players.Length; i++)
-        {
-            if (GameObject.FindGameObjectWithTag("BluePlayer").activeSelf)
-            {
-                playersAlive++;
-            }
-
-            if (GameObject.FindGameObjectWithTag("RedPlayer").activeSelf)
-            {
-                playersAlive++;
-            }
-        }
-        
-        if (playersAlive == 1)
+        if (!bluePlayer.activeSelf || !redPlayer.activeSelf)
             return true;
-        
+
         return false;
     }
 
     void DisablePlayersControl()
     {
-        for (int i = 0; i < players.Length; i++)
-        {
-            players[i].GetComponent<PlayerMovement>().enabled = false;
-            players[i].GetComponent<PlayerAttack>().enabled = false;
-        }
+        bluePlayer.GetComponent<PlayerMovement>().enabled = false;
+        bluePlayer.GetComponent<PlayerAttack>().enabled = false;
+        redPlayer.GetComponent<PlayerMovement>().enabled = false;
+        redPlayer.GetComponent<PlayerAttack>().enabled = false;
     }
 
     void EnablePlayersControl()
     {
-        for (int i = 0; i < players.Length; i++)
-        {
-            players[i].GetComponent<PlayerMovement>().enabled = true;
-            players[i].GetComponent<PlayerAttack>().enabled = true;
-        }
+        bluePlayer.GetComponent<PlayerMovement>().enabled = true;
+        bluePlayer.GetComponent<PlayerAttack>().enabled = true;
+        redPlayer.GetComponent<PlayerMovement>().enabled = true;
+        redPlayer.GetComponent<PlayerAttack>().enabled = true;
     }
 
     GameObject ReturnRoundWinner()
     {
-        for (int i = 0; i < players.Length; i++)
+        if (bluePlayer.activeSelf)
         {
-            if (players[i].activeSelf)
-            {
-                return players[i];
-            }
+            return bluePlayer;
         }
 
-        return null;
+        return redPlayer;
     }
 
     GameObject ReturnGameWinner()
     {
-        for (int i = 0; i < players.Length; i++)
+        if (blueRoundWins == numRoundsToWin)
         {
-            if (players[i].CompareTag("BluePlayer"))
-            {
-                if (blueRoundWins == numRoundsToWin)
-                {
-                    Debug.Log("BLUE PLAYER WINS");
-                    // SetupWinner(players[i]);
-                }
-            } else if (players[i].CompareTag("RedPlayer"))
-            {
-                if (redRoundWins == numRoundsToWin)
-                {
-                    Debug.Log("RED PLAYER WINS");
-                    // SetupWinner(players[i]);
-                }
-            }
+            SetupWinner(bluePlayer);
+        } else if (redRoundWins == numRoundsToWin)
+        {
+            SetupWinner(redPlayer);
         }
 
         return null;

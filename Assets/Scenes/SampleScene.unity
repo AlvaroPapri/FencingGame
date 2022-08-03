@@ -1208,12 +1208,13 @@ MonoBehaviour:
   m_StartWait: 3
   blueWinBackground: {fileID: 851299352}
   redWinBackground: {fileID: 628263428}
-  players:
-  - {fileID: 5979385779285692213, guid: 4bdd50a64ca795448af56555d7465e83, type: 3}
-  - {fileID: 7021979036996280537, guid: 3a778fb5c6f995647bf53c92670c4a89, type: 3}
-  spawnPositions:
-  - {fileID: 2130763025}
-  - {fileID: 1927360616}
+  blueSpawnPositions: {fileID: 2130763025}
+  redSpawnPositions: {fileID: 1927360616}
+  bluePlayer: {fileID: 5979385779285692213, guid: 4bdd50a64ca795448af56555d7465e83, type: 3}
+  redPlayer: {fileID: 7021979036996280537, guid: 3a778fb5c6f995647bf53c92670c4a89, type: 3}
+  currentRound: 0
+  blueRoundWins: 0
+  redRoundWins: 0
 --- !u!1 &1630919653
 GameObject:
   m_ObjectHideFlags: 0
