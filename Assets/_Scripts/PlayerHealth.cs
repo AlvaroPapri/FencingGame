@@ -6,8 +6,6 @@ public class PlayerHealth : MonoBehaviour
     {
         if (col.CompareTag("Sword"))
         {
-            Debug.Log(col.gameObject.transform.parent.tag);
-            GameManager.Instance.setupWinner(col.gameObject.transform.parent.gameObject);
             gameObject.SetActive(false);
         }
     }
