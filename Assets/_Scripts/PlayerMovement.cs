@@ -7,15 +7,18 @@ public class PlayerMovement : MonoBehaviour
 
     private Animator anim;
 
+    private PlayerAttack _playerAttack;
+
     private void Start()
     {
         anim = GetComponent<Animator>();
+        _playerAttack = GetComponent<PlayerAttack>();
     }
 
     private void Update()
     {
         // My Code
-        if (gameObject.CompareTag("BluePlayer") && gameObject.GetComponent<PlayerAttack>().canMove)
+        if (gameObject.CompareTag("BluePlayer") && _playerAttack.canMove)
         {
             if (Input.GetKeyDown(KeyCode.A))
             {
@@ -29,7 +32,7 @@ public class PlayerMovement : MonoBehaviour
             }
         }
         
-        if (gameObject.CompareTag("RedPlayer") && gameObject.GetComponent<PlayerAttack>().canMove)
+        if (gameObject.CompareTag("RedPlayer") && _playerAttack.canMove)
         {
             if (Input.GetKeyDown(KeyCode.LeftArrow))
             {

@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using TMPro;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -10,6 +11,9 @@ public class GameManager : MonoBehaviour
     public int m_StartWait = 2;
     
     public GameObject blueWinBackground, redWinBackground;
+    public TextMeshProUGUI blueWinsText;
+    public TextMeshProUGUI redWinsText;
+    
     public Transform blueSpawnPositions;
     public Transform redSpawnPositions;
     public GameObject bluePrefab;
@@ -78,6 +82,7 @@ public class GameManager : MonoBehaviour
 
     IEnumerator RoundStarting()
     {
+        Debug.Log("ROUND STARTING");
         ResetPlayers();
         DisablePlayersControl();
 
@@ -88,7 +93,11 @@ public class GameManager : MonoBehaviour
 
     IEnumerator RoundPlaying()
     {
+        Debug.Log("ROUND PLAYING");
+
         EnablePlayersControl();
+        
+        Debug.Log("STILL PLAYING");
 
         while (!OnePlayerLeft())
         {
@@ -98,11 +107,13 @@ public class GameManager : MonoBehaviour
 
     IEnumerator RoundEnding()
     {
+        Debug.Log("ROUND ENDING");
+
         DisablePlayersControl();
-        
+
         roundWinner = null;
         roundWinner = ReturnRoundWinner();
-        
+
         if (roundWinner != null && roundWinner.CompareTag("BluePlayer"))
         {
             blueRoundWins++;
@@ -112,8 +123,10 @@ public class GameManager : MonoBehaviour
             redRoundWins++;
         }
 
-        gameWinner = ReturnGameWinner();
+        UpdateWinRoundsText();
         
+        gameWinner = ReturnGameWinner();
+
         yield return new WaitForSeconds(m_StartWait);
     }
 
@@ -190,6 +203,27 @@ public class GameManager : MonoBehaviour
             redWinBackground.SetActive(true);
 
         Time.timeScale = 0;
+    }
+
+    #endregion
+
+    #region UI Management
+
+    void UpdateWinRoundsText()
+    {
+        blueWinsText.text = "Blue Wins\n ";
+        redWinsText.text = "Red Wins\n";
+
+        for (int i = 0; i < blueRoundWins; i++)
+        {
+            blueWinsText.text += " *";
+            Debug.Log(blueWinsText.text);
+        }
+
+        for (int i = 0; i < redRoundWins; i++)
+        {
+            redWinsText.text += " *";
+        }
     }
 
     #endregion

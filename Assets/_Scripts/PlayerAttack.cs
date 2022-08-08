@@ -27,6 +27,13 @@ public class PlayerAttack : MonoBehaviour
         canMove = true;
     }
 
+    private void OnEnable()
+    {
+        canMove = true;
+        rightCollider.gameObject.SetActive(false);
+        leftCollider.gameObject.SetActive(false);
+    }
+
     private void Update()
     {
         if (gameObject.CompareTag("BluePlayer") && Input.GetKeyDown(KeyCode.Space) && canMove)
@@ -47,7 +54,7 @@ public class PlayerAttack : MonoBehaviour
         if (enemy.transform.position.x > transform.position.x)
         {
             // Activate right collider
-            rightCollider.transform.gameObject.SetActive(true);
+            rightCollider.gameObject.SetActive(true);
             transform.position = new Vector3(transform.position.x + attackStepSpeed, transform.position.y);
             anim.SetTrigger("Attack");
             yield return new WaitForSeconds(0.5f);
@@ -57,7 +64,7 @@ public class PlayerAttack : MonoBehaviour
         else  
         {
             // Activate left collider
-            leftCollider.transform.gameObject.SetActive(true);
+            leftCollider.gameObject.SetActive(true);
             transform.position = new Vector3(transform.position.x - attackStepSpeed, transform.position.y);
             anim.SetTrigger("Attack");
             yield return new WaitForSeconds(0.5f);
@@ -67,8 +74,4 @@ public class PlayerAttack : MonoBehaviour
 
         canMove = true;
     }
-
-    public void DisableMove() => canMove = false;
-
-    public void EnableMove() => canMove = true;
 }
