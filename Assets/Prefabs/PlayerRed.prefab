@@ -174,7 +174,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f9c79f6d496eee4a886a8fee39797c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackStepSpeed: 0.4
+  attackStepSpeed: 0.8
   canMove: 1
   rightCollider: {fileID: 753981599680347819}
   leftCollider: {fileID: 1596830701373774020}

@@ -1205,13 +1205,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   numRoundsToWin: 3
-  m_StartWait: 3
+  m_StartWait: 2
   blueWinBackground: {fileID: 851299352}
   redWinBackground: {fileID: 628263428}
   blueSpawnPositions: {fileID: 2130763025}
   redSpawnPositions: {fileID: 1927360616}
-  bluePlayer: {fileID: 5979385779285692213, guid: 4bdd50a64ca795448af56555d7465e83, type: 3}
-  redPlayer: {fileID: 7021979036996280537, guid: 3a778fb5c6f995647bf53c92670c4a89, type: 3}
+  bluePrefab: {fileID: 5979385779285692213, guid: 4bdd50a64ca795448af56555d7465e83, type: 3}
+  redPrefab: {fileID: 7021979036996280537, guid: 3a778fb5c6f995647bf53c92670c4a89, type: 3}
   currentRound: 0
   blueRoundWins: 0
   redRoundWins: 0

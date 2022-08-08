@@ -8,11 +8,20 @@ public class GameManager : MonoBehaviour
 
     public int numRoundsToWin = 3;
     public int m_StartWait = 2;
+    
     public GameObject blueWinBackground, redWinBackground;
     public Transform blueSpawnPositions;
     public Transform redSpawnPositions;
-    public GameObject bluePlayer;
-    public GameObject redPlayer;
+    public GameObject bluePrefab;
+    public GameObject redPrefab;
+
+    private GameObject bluePlayerClone;
+    private GameObject redPlayerClone;
+
+    private PlayerMovement bluePlayerMovement;
+    private PlayerMovement redPlayerMovement;
+    private PlayerAttack bluePlayerAttack;
+    private PlayerAttack redPlayerAttack;
 
     [SerializeField] private int currentRound;
     [SerializeField] private int blueRoundWins;
@@ -20,24 +29,31 @@ public class GameManager : MonoBehaviour
 
     private GameObject roundWinner;
     private GameObject gameWinner;
-    
+
+    #region Instantiate & Start Game Loop
+
     private void Awake()
     {
         Instance = this;
+        
+        currentRound = 0;
+        SpawnPlayers();
     }
 
     private void Start()
     {
-        currentRound = 0;
-        SpawnPlayers();
+        bluePlayerMovement = bluePlayerClone.GetComponent<PlayerMovement>();
+        redPlayerMovement = redPlayerClone.GetComponent<PlayerMovement>();
+        bluePlayerAttack = bluePlayerClone.GetComponent<PlayerAttack>();
+        redPlayerAttack = redPlayerClone.GetComponent<PlayerAttack>();
         
         StartCoroutine(GameLoop());
     }
 
     private void SpawnPlayers()
     {
-        Instantiate(bluePlayer, blueSpawnPositions.position, blueSpawnPositions.rotation);
-        Instantiate(redPlayer, redSpawnPositions.position, redSpawnPositions.rotation);
+        bluePlayerClone = Instantiate(bluePrefab, blueSpawnPositions.position, blueSpawnPositions.rotation);
+        redPlayerClone = Instantiate(redPrefab, redSpawnPositions.position, redSpawnPositions.rotation);
     }
 
     IEnumerator GameLoop()
@@ -56,21 +72,22 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    #endregion
+
+    #region Round's Flow
+
     IEnumerator RoundStarting()
     {
-        Debug.Log("ROUND STARTING");
         ResetPlayers();
         DisablePlayersControl();
 
         currentRound++;
-        Debug.Log("ROUND " + currentRound);
         
         yield return new WaitForSeconds(m_StartWait);
     }
 
     IEnumerator RoundPlaying()
     {
-        Debug.Log("ROUND PLAYING");
         EnablePlayersControl();
 
         while (!OnePlayerLeft())
@@ -86,7 +103,6 @@ public class GameManager : MonoBehaviour
         roundWinner = null;
         roundWinner = ReturnRoundWinner();
         
-        // roundWinner.CompareTag("BluePlayer") ? blueRoundWins++ : redRoundWins++;
         if (roundWinner != null && roundWinner.CompareTag("BluePlayer"))
         {
             blueRoundWins++;
@@ -101,13 +117,68 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(m_StartWait);
     }
 
+    #endregion
+
+    #region Reset and Player's Control
+
     void ResetPlayers()
     {
-        bluePlayer.SetActive(true);
-        redPlayer.SetActive(true);
+        bluePlayerClone.SetActive(true);
+        redPlayerClone.SetActive(true);
         
-        bluePlayer.transform.position = blueSpawnPositions.position;
-        redPlayer.transform.position = redSpawnPositions.position;
+        bluePlayerClone.transform.position = blueSpawnPositions.position;
+        redPlayerClone.transform.position = redSpawnPositions.position;
+    }
+
+    void DisablePlayersControl()
+    {
+        bluePlayerMovement.enabled = false;
+        bluePlayerAttack.enabled = false;
+        redPlayerMovement.enabled = false;
+        redPlayerAttack.enabled = false;
+    }
+
+    void EnablePlayersControl()
+    {
+        bluePlayerMovement.enabled = true;
+        bluePlayerAttack.enabled = true;
+        redPlayerMovement.enabled = true;
+        redPlayerAttack.enabled = true;
+    }
+
+    #endregion
+
+    #region Round and Game Winners Checkers
+
+    private bool OnePlayerLeft()
+    {
+        if (!bluePlayerClone.activeSelf || !redPlayerClone.activeSelf)
+            return true;
+
+        return false;
+    }
+
+    GameObject ReturnRoundWinner()
+    {
+        if (bluePlayerClone.activeSelf)
+        {
+            return bluePlayerClone;
+        }
+
+        return redPlayerClone;
+    }
+
+    GameObject ReturnGameWinner()
+    {
+        if (blueRoundWins == numRoundsToWin)
+        {
+            SetupWinner(bluePlayerClone);
+        } else if (redRoundWins == numRoundsToWin)
+        {
+            SetupWinner(redPlayerClone);
+        }
+
+        return null;
     }
 
     public void SetupWinner(GameObject winner)
@@ -121,50 +192,5 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 0;
     }
 
-    private bool OnePlayerLeft()
-    {
-        if (!bluePlayer.activeSelf || !redPlayer.activeSelf)
-            return true;
-
-        return false;
-    }
-
-    void DisablePlayersControl()
-    {
-        bluePlayer.GetComponent<PlayerMovement>().enabled = false;
-        bluePlayer.GetComponent<PlayerAttack>().enabled = false;
-        redPlayer.GetComponent<PlayerMovement>().enabled = false;
-        redPlayer.GetComponent<PlayerAttack>().enabled = false;
-    }
-
-    void EnablePlayersControl()
-    {
-        bluePlayer.GetComponent<PlayerMovement>().enabled = true;
-        bluePlayer.GetComponent<PlayerAttack>().enabled = true;
-        redPlayer.GetComponent<PlayerMovement>().enabled = true;
-        redPlayer.GetComponent<PlayerAttack>().enabled = true;
-    }
-
-    GameObject ReturnRoundWinner()
-    {
-        if (bluePlayer.activeSelf)
-        {
-            return bluePlayer;
-        }
-
-        return redPlayer;
-    }
-
-    GameObject ReturnGameWinner()
-    {
-        if (blueRoundWins == numRoundsToWin)
-        {
-            SetupWinner(bluePlayer);
-        } else if (redRoundWins == numRoundsToWin)
-        {
-            SetupWinner(redPlayer);
-        }
-
-        return null;
-    }
+    #endregion
 }
