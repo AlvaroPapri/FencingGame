@@ -239,7 +239,6 @@ public class GameManager : MonoBehaviour
         {
             readyText.text += ".";
             yield return new WaitForSeconds(0.5f);
-            Debug.Log(readyText.text);
         }
 
         goText.text = "GO!";

@@ -41,7 +41,7 @@ public class PlayerAttack : MonoBehaviour
             StartCoroutine(Attack());
         }
         
-        if (gameObject.CompareTag("RedPlayer") && Input.GetKeyDown(KeyCode.RightAlt) && canMove)
+        if (gameObject.CompareTag("RedPlayer") && Input.GetKeyDown(KeyCode.Slash) && canMove)
         {
             StartCoroutine(Attack());
         }
@@ -54,24 +54,32 @@ public class PlayerAttack : MonoBehaviour
         if (enemy.transform.position.x > transform.position.x)
         {
             // Activate right collider
-            rightCollider.gameObject.SetActive(true);
             transform.position = new Vector3(transform.position.x + attackStepSpeed, transform.position.y);
             anim.SetTrigger("Attack");
             yield return new WaitForSeconds(0.5f);
             anim.ResetTrigger("Attack");
-            rightCollider.transform.gameObject.SetActive(false);
         }
         else  
         {
             // Activate left collider
-            leftCollider.gameObject.SetActive(true);
             transform.position = new Vector3(transform.position.x - attackStepSpeed, transform.position.y);
             anim.SetTrigger("Attack");
             yield return new WaitForSeconds(0.5f);
             anim.ResetTrigger("Attack");
-            leftCollider.transform.gameObject.SetActive(false);
         }
 
         canMove = true;
+    }
+
+    public void EnableAttack()
+    {
+        rightCollider.gameObject.SetActive(true);
+        leftCollider.gameObject.SetActive(true);
+    }
+    
+    public void DisableAttack()
+    {
+        rightCollider.gameObject.SetActive(false);
+        leftCollider.gameObject.SetActive(false);
     }
 }
