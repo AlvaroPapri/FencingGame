@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -33,6 +34,10 @@ public class GameManager : MonoBehaviour
 
     private GameObject roundWinner;
     private GameObject gameWinner;
+
+    public GameObject ReadySetGo;
+    public TextMeshProUGUI readyText;
+    public TextMeshProUGUI goText;
 
     #region Instantiate & Start Game Loop
 
@@ -78,27 +83,27 @@ public class GameManager : MonoBehaviour
 
     #endregion
 
+    public void ResetGame()
+    {
+        SceneManager.LoadScene("Game");
+    }
+
     #region Round's Flow
 
     IEnumerator RoundStarting()
     {
-        Debug.Log("ROUND STARTING");
         ResetPlayers();
         DisablePlayersControl();
 
         currentRound++;
-        
-        yield return new WaitForSeconds(m_StartWait);
+
+        yield return StartCoroutine(ReadySetGoText());
     }
 
     IEnumerator RoundPlaying()
     {
-        Debug.Log("ROUND PLAYING");
-
         EnablePlayersControl();
         
-        Debug.Log("STILL PLAYING");
-
         while (!OnePlayerLeft())
         {
             yield return null;
@@ -107,8 +112,6 @@ public class GameManager : MonoBehaviour
 
     IEnumerator RoundEnding()
     {
-        Debug.Log("ROUND ENDING");
-
         DisablePlayersControl();
 
         roundWinner = null;
@@ -217,13 +220,29 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < blueRoundWins; i++)
         {
             blueWinsText.text += " *";
-            Debug.Log(blueWinsText.text);
         }
 
         for (int i = 0; i < redRoundWins; i++)
         {
             redWinsText.text += " *";
         }
+    }
+
+    IEnumerator ReadySetGoText()
+    {
+        ReadySetGo.SetActive(true);
+        readyText.text = "Ready";
+        goText.text = "";
+
+        for (int i = 0; i < 3; i++)
+        {
+            readyText.text += ".";
+            yield return new WaitForSeconds(0.5f);
+        }
+
+        goText.text = "GO!";
+        yield return new WaitForSeconds(0.5f);
+        ReadySetGo.SetActive(false);
     }
 
     #endregion
