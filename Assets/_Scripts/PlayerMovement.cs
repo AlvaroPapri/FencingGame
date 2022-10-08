@@ -6,7 +6,6 @@ public class PlayerMovement : MonoBehaviour
     public float movementSpeed;
 
     private Animator anim;
-
     private PlayerAttack _playerAttack;
 
     private void Start()
@@ -17,7 +16,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        // My Code
         if (gameObject.CompareTag("BluePlayer") && _playerAttack.canMove)
         {
             if (Input.GetKeyDown(KeyCode.A))
@@ -45,9 +43,7 @@ public class PlayerMovement : MonoBehaviour
             }
         }
     }
-
-    #region MOVE
-
+    
     private void MoveLeft()
     {
         Animating();
@@ -73,6 +69,4 @@ public class PlayerMovement : MonoBehaviour
             anim.SetBool("Move", true);
         }
     }
-
-    #endregion
 }

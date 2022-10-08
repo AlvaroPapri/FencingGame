@@ -1,15 +1,12 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
 {
-    private GameObject enemy;
-
     public float attackStepSpeed;
     public bool canMove;
 
+    private GameObject enemy;
     public Collider2D rightCollider;
     public Collider2D leftCollider;
 

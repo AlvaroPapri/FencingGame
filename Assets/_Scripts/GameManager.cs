@@ -187,10 +187,10 @@ public class GameManager : MonoBehaviour
 
     GameObject ReturnGameWinner()
     {
-        if (blueRoundWins == numRoundsToWin)
+        if (blueRoundWins >= numRoundsToWin)
         {
             SetupWinner(bluePlayerClone);
-        } else if (redRoundWins == numRoundsToWin)
+        } else if (redRoundWins >= numRoundsToWin)
         {
             SetupWinner(redPlayerClone);
         }
